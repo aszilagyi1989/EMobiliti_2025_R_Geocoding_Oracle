@@ -83,3 +83,7 @@ write.xlsx(datas, "javított_koordináták.xlsx")
 
 # talalt_cimek <- datas %>% reverse_geocode(lat = DQEA007, long = DQEA008, method = "arcgis", address = "teljes_cim")
 reverse_geo(lat = 48.385188, long = 21.634325, method = "arcgis")
+# 48.4  21.6 3980, Sátoraljaújhely, Sátoraljaújhelyi járás, Borsod-Abaúj-Zemplén, Ostromgyűrű köz, HUN
+reverse_geo(lat = 47.533292, long = 19.052174, method = "arcgis")
+# 47.5  19.1 VitalCenter Margitsziget, 1007, Margitsziget, Budapest, HUN
+
