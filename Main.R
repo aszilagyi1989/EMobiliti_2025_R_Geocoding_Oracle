@@ -43,7 +43,17 @@ dim(M009_List) # 3200 sor és 2 oszlop
 
 datas %>% left_join(M009_List, by = c("DQEA005" = "NEV")) -> datas
 
-# datas <- datas %>% select(-address, -lat, -long)
+datas <- datas %>% mutate(sum_AC = as.numeric(DQEA023) + as.numeric(DQEA024) + as.numeric(DQEA025), 
+                          sum_DC = as.numeric(DQEA026) + as.numeric(DQEA027) + as.numeric(DQEA028) + as.numeric(DQEA029), 
+                          DQEA030 = case_when(sum_AC > 0 & sum_DC == 0 ~ "csak AC", 
+                                              sum_DC > 0 & sum_AC == 0 ~ "csak DC", 
+                                              sum_AC > 0 & sum_DC > 0 ~ "AC és DC képes", 
+                                              TRUE ~ NA)) %>% select(-sum_AC, -sum_DC)
+
+# datas <- datas %>% select(-address, -lat, -long, -helyzet_ellenorzes)
+# datas$DQEA007 <- gsub("\\.", ",",  datas$DQEA007)
+# datas$DQEA008 <- gsub("\\.", ",", datas$DQEA008)
+
 columns_list(datas, ncol(datas))
 
 rs <- dbSendQuery(con, paste0("insert into DQ.N_YM_2607_EMOBILITI_V25_E_V00(", columns, ") values (", values, ")"), data = datas)
