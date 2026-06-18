@@ -11,7 +11,7 @@ library("stringr")
 source("Functions.R")
 
 datas <- read.csv(paste0(getwd(), "/CSV/2025_KSH__Emobiliti.csv"), header = TRUE, sep = ";", colClasses = "character")
-dim(datas)
+dim(datas) # 5430 sor és 32 oszlop
 
 colnames(datas) <- c("M003", "DQEA002", "DQEA003", "DQEA004", "DQEA005", "DQEA006", 
                      "DQEA007", "DQEA008", "DQEA009", "DQEA010", "DQEA011", "DQEA012", 
@@ -26,6 +26,15 @@ datas$DQEA012 <- gsub("\\.", "-", datas$DQEA012)
 
 datas$DQEA011 <- as.Date(datas$DQEA011)
 datas$DQEA012 <- as.Date(datas$DQEA012)
+
+# jav_koord <- read.csv(paste0(getwd(), "/CSV/2025_KSH__Emobiliti_jav_koord.csv"), header = TRUE, sep = ";", colClasses = "character")
+# dim(jav_koord)
+# 
+# jav_koord[jav_koord$helyzet_ellenorzes == "Megfelelő", c("lat", "long")] <- list("", "")
+# datas <- cbind(datas, jav_koord[, c("lat", "long")])
+# colnames(datas)[33] <- "lat_n"
+# colnames(datas)[34] <- "long_e"
+
 
 Sys.setenv(TZ = "CET")
 Sys.setenv(ORA_SDTZ = "CET")
@@ -89,7 +98,7 @@ datas <- datas %>%
     missing = "Hiányzó adat" # Ha valamelyik koordináta NA, ezt írja be
   ))
 
-write.xlsx(datas, "javított_koordináták.xlsx")
+write.xlsx(datas, "javított_koordináták_2.xlsx")
 
 # talalt_cimek <- datas %>% reverse_geocode(lat = DQEA007, long = DQEA008, method = "arcgis", address = "teljes_cim")
 reverse_geo(lat = 48.385188, long = 21.634325, method = "arcgis")
